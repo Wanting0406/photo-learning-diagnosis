@@ -1,0 +1,225 @@
+{
+  "paths": {
+    "/openapi/diagnosis/jobs": {
+      "post": {
+        "operationId": "submitDiagnosisJob",
+        "summary": "提交拍照/作业诊断任务",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["requestId", "studentName"],
+                "properties": {
+                  "requestId": {
+                    "type": "string",
+                    "format": "uuid",
+                    "description": "幂等请求编号，同一编号重复提交返回同一任务",
+                    "example": "0f4b1c62-8c3f-4a63-9a1e-5f0d2b7e9c11"
+                  },
+                  "mode": {
+                    "type": "string",
+                    "enum": ["extract-wrong", "grade", "auto", "analyze"],
+                    "description": "诊断模式：extract-wrong 识别已批改照片、grade 判未批改照片、auto 混合照片、analyze 基于错题生成诊断；默认 extract-wrong",
+                    "example": "analyze"
+                  },
+                  "studentName": {
+                    "type": "string",
+                    "description": "学生姓名",
+                    "example": "张小明"
+                  },
+                  "grade": {
+                    "type": "string",
+                    "description": "年级，留空则由识别自动判断",
+                    "example": "初二"
+                  },
+                  "subject": {
+                    "type": "string",
+                    "description": "学科，留空则由识别自动判断",
+                    "example": "数学"
+                  },
+                  "note": {
+                    "type": "string",
+                    "description": "考试范围、近期情况等备注",
+                    "example": "期中考试，重点考察一元二次方程"
+                  },
+                  "photos": {
+                    "type": "array",
+                    "description": "卷面照片，最多 6 张、合计不超过 12 MB；复用 recognitionJobId 时可省略",
+                    "items": {
+                      "type": "object",
+                      "required": ["name", "mimeType", "dataBase64"],
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "description": "文件名",
+                          "example": "page-1.jpg"
+                        },
+                        "mimeType": {
+                          "type": "string",
+                          "enum": ["image/jpeg", "image/png", "image/webp"],
+                          "description": "图片类型",
+                          "example": "image/jpeg"
+                        },
+                        "dataBase64": {
+                          "type": "string",
+                          "description": "图片内容的 Base64 编码，不含 data URL 前缀",
+                          "example": "/9j/4AAQSkZJRgABAQAAAQABAAD..."
+                        }
+                      }
+                    }
+                  },
+                  "wrongItems": {
+                    "type": "array",
+                    "description": "待分析的错题题号或题目描述，analyze 模式下使用",
+                    "items": {
+                      "type": "string",
+                      "description": "一条错题描述",
+                      "example": "第 8 题：解方程 x²-5x+6=0"
+                    }
+                  },
+                  "recognitionJobId": {
+                    "type": "string",
+                    "description": "复用已有识别任务继续诊断，可免传照片；任务须由开放接口创建",
+                    "example": "recAbc12345"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "任务已创建，返回任务编号用于轮询",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["jobId", "mode", "status", "stage", "studentName", "error"],
+                  "properties": {
+                    "jobId": {
+                      "type": "string",
+                      "description": "任务编号，用于轮询结果",
+                      "example": "recAbc12345"
+                    },
+                    "mode": {
+                      "type": "string",
+                      "enum": ["extract-wrong", "grade", "auto", "analyze"],
+                      "description": "本次任务使用的诊断模式",
+                      "example": "analyze"
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": ["running", "completed", "failed"],
+                      "description": "任务状态",
+                      "example": "running"
+                    },
+                    "stage": {
+                      "type": "string",
+                      "description": "当前进度说明",
+                      "example": "正在识别"
+                    },
+                    "studentName": {
+                      "type": "string",
+                      "description": "学生姓名",
+                      "example": "张小明"
+                    },
+                    "error": {
+                      "type": "string",
+                      "description": "失败原因，成功时为空字符串",
+                      "example": ""
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/openapi/diagnosis/jobs/{jobId}": {
+      "get": {
+        "operationId": "getDiagnosisJob",
+        "summary": "查询诊断任务状态与结果",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "jobId",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "提交任务时返回的任务编号",
+            "example": "recAbc12345"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "任务详情",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["jobId", "mode", "status", "stage", "studentName", "error"],
+                  "properties": {
+                    "jobId": {
+                      "type": "string",
+                      "description": "任务编号",
+                      "example": "recAbc12345"
+                    },
+                    "mode": {
+                      "type": "string",
+                      "enum": ["extract-wrong", "grade", "auto", "analyze"],
+                      "description": "本次任务使用的诊断模式",
+                      "example": "analyze"
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": ["running", "completed", "failed"],
+                      "description": "任务状态",
+                      "example": "completed"
+                    },
+                    "stage": {
+                      "type": "string",
+                      "description": "当前或最终进度说明",
+                      "example": "已完成"
+                    },
+                    "studentName": {
+                      "type": "string",
+                      "description": "学生姓名",
+                      "example": "张小明"
+                    },
+                    "error": {
+                      "type": "string",
+                      "description": "失败原因，成功时为空字符串",
+                      "example": ""
+                    },
+                    "reusable": {
+                      "type": "boolean",
+                      "description": "识别结果是否可复用于后续诊断",
+                      "example": true
+                    },
+                    "timings": {
+                      "type": "object",
+                      "description": "各阶段耗时（毫秒），任务完成后返回",
+                      "example": { "photoResolveMs": 820, "modelMs": 18340 }
+                    },
+                    "result": {
+                      "type": "object",
+                      "description": "识别或诊断结果，任务未完成时省略；识别态含 scopeNote、wrongItems、items、courseMatches，诊断态含 diagnosis、stored、recordUrl",
+                      "example": {
+                        "ok": true,
+                        "stored": true,
+                        "recordId": "recAbc12345",
+                        "recordUrl": "https://guanghe.feishu.cn/base/bascnXxx?table=tblYyy&record=recAbc12345"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

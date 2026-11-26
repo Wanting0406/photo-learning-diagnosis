@@ -1,0 +1,22 @@
+.diagnosis-report{color:#243a30;min-width:0;line-height:1.75;letter-spacing:0}
+.diagnosis-report-header{display:flex;justify-content:space-between;align-items:center;gap:20px;border-bottom:2px solid #28745a;padding:18px 0}
+.diagnosis-report-header h2{font-size:32px;font-weight:650;line-height:1.3;overflow-wrap:anywhere;margin:6px 0}
+.diagnosis-report-header span,.diagnosis-report-header p{font-size:13px;color:#65746c}
+.diagnosis-report section{padding:18px 0}.diagnosis-report h3{font-size:17px;font-weight:650}.diagnosis-report p{white-space:pre-wrap;overflow-wrap:anywhere;margin:8px 0}
+.diagnosis-share-toolbar,.diagnosis-section-heading{display:flex;flex-wrap:wrap;gap:8px;align-items:center}.diagnosis-share-toolbar{padding:14px 0;border-bottom:1px solid #dfe7e1}.diagnosis-section-heading{justify-content:space-between}
+.diagnosis-choice{display:flex;align-items:center;gap:10px;font-size:16px;font-weight:600;cursor:pointer;overflow-wrap:anywhere}
+.diagnosis-parent{background:#edf5ef;border-left:3px solid #267255;padding:14px 18px;font-size:15px}
+.diagnosis-parent strong{color:#175d43;font-weight:750;background:#e0eedf}.diagnosis-detail{border-left:3px solid #b5ccbf;padding-left:16px;margin-top:18px}.diagnosis-detail h3{font-size:15px;margin-top:16px}
+.diagnosis-metrics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:12px}
+.diagnosis-metrics>div{padding:20px;background:#edf5f8;border-radius:6px}.diagnosis-metrics>div:nth-child(2n){background:#eff5ed}
+.diagnosis-metrics span,.diagnosis-metrics p{font-size:13px;color:#556761}.diagnosis-metrics strong{display:block;font-size:42px;color:#265875;overflow-wrap:anywhere;line-height:1.4}.diagnosis-metrics small{font-size:16px;margin-left:4px}.diagnosis-metrics>div:nth-child(2n) strong{color:#32714e}
+.diagnosis-metrics>div:nth-child(n+3){grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;padding:12px 20px;background:#f4f7f5}.diagnosis-metrics>div:nth-child(n+3) strong{font-size:25px}
+.diagnosis-metrics p.diagnosis-metric-analysis{font-size:14px;line-height:1.7;color:#425c50;margin:12px 0 0}.diagnosis-metrics>div:nth-child(n+3) .diagnosis-metric-analysis{flex-basis:100%;margin:0}
+.diagnosis-solution{display:grid;grid-template-columns:minmax(0,1fr) 210px;gap:24px;padding:20px 0;border-bottom:1px solid #dfe7e1;font-size:14px}.diagnosis-solution:has(.diagnosis-solution-body:only-child){grid-template-columns:1fr}
+.diagnosis-problem{font-weight:600;color:#1d7252}.diagnosis-course{background:#f2f6f3;padding:10px 14px;margin:10px 0}.diagnosis-course span,.diagnosis-course small{display:block;color:#65746c;font-size:12px}
+.diagnosis-poster{min-width:0}.diagnosis-poster>button:not([data-slot]){display:block;width:100%;height:270px;background:#f5f7f6;margin-top:10px;border:1px solid #dfe7e1}.diagnosis-poster p{font-size:12px}
+.diagnosis-report details{padding:14px 0;border-top:1px solid #e0e7e1;font-size:13px;color:#5b6961}.diagnosis-report summary{cursor:pointer;font-weight:600}.diagnosis-report details p{font-size:13px}
+.material-count,.material-scope{font-size:13px;color:#65746c;font-weight:400}.material-scope{display:block;margin:8px 0}
+.material-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;margin-top:20px}.material-item{min-width:0;border:1px solid #dfe7e1;border-radius:6px;padding:16px}.material-item .diagnosis-choice{align-items:flex-start;font-size:15px}.material-item p{font-size:14px}.material-thumbnail{height:240px;display:flex;align-items:center;justify-content:center;background:#f4f7f5;margin:12px 0}.material-thumbnail>button{width:100%;height:100%}.material-actions{display:flex;align-items:center;flex-wrap:wrap;gap:8px}.material-pagination{display:flex;align-items:center;justify-content:center;gap:16px;padding:20px 0}.material-pagination span{font-size:14px}
+@media(max-width:640px){.material-grid{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:640px){.diagnosis-report-header h2{font-size:28px}.diagnosis-report-header{align-items:flex-start}.diagnosis-metrics{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.diagnosis-metrics strong{font-size:26px}.diagnosis-solution{grid-template-columns:minmax(0,1fr);gap:12px}.diagnosis-poster{max-width:250px}.diagnosis-share-toolbar{gap:6px}}

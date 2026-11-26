@@ -1,0 +1,31 @@
+{
+  "id": "learning_diagnosis_text_generation_1",
+  "pluginKey": "@official-plugins/ai-text-generate",
+  "pluginVersion": "1.0.21",
+  "name": "学情诊断文本生成",
+  "description": "基于通义千问文本模型，用于学情诊断报告与家长话术的智能生成。调用方通过入参传入完整提示词（含系统提示与用户内容），支持自定义生成内容。",
+  "icon": "https://lf3-static.bytednsdoc.com/obj/eden-cn/fzgeh7nuhfboznulog/ai_writing.svg",
+  "paramsSchema": {
+    "type": "object",
+    "properties": {
+      "prompt": {
+        "type": "string",
+        "description": "完整提示词（包含系统提示与用户内容），用于学情诊断报告与家长话术生成"
+      }
+    },
+    "required": [
+      "prompt"
+    ]
+  },
+  "formValue": {
+    "modelID": "2015",
+    "modelParams": {
+      "maxTokens": 8192,
+      "temperature": 0.2
+    },
+    "prompt": "{{input.prompt}}"
+  },
+  "createdAt": 1795401483558,
+  "updatedAt": 1795401483558,
+  "createdBy": 0
+}
